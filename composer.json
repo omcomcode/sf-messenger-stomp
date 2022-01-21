@@ -9,8 +9,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "symfony/messenger": "^4.3 | ^5.0",
-        "enqueue/stomp": "^0.10.1"
+        "symfony/messenger": "^5.0",
+        "enqueue/stomp": "^0.10.9"
     },
     "autoload": {
         "psr-4": {
