@@ -11,13 +11,8 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 class StompSender implements SenderInterface
 {
-    private $serializer;
-    private $connection;
-
-    public function __construct(Connection $connection, SerializerInterface $serializer)
+    public function __construct(private Connection $connection, private SerializerInterface $serializer)
     {
-        $this->connection = $connection;
-        $this->serializer = $serializer;
     }
 
     /**

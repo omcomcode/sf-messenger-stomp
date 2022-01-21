@@ -11,16 +11,11 @@ use Symfony\Component\Messenger\Transport\TransportInterface;
 
 class StompTransport implements TransportInterface
 {
-    private $connection;
-    private $serializer;
-
     private $sender;
     private $receiver;
 
-    public function __construct(Connection $connection, SerializerInterface $serializer)
+    public function __construct(private Connection $connection, private SerializerInterface $serializer)
     {
-        $this->connection = $connection;
-        $this->serializer = $serializer;
     }
 
     /**

@@ -14,13 +14,8 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 class StompReceiver implements ReceiverInterface
 {
-    private $serializer;
-    private $connection;
-
-    public function __construct(Connection $connection, SerializerInterface $serializer)
+    public function __construct(private Connection $connection, private SerializerInterface $serializer)
     {
-        $this->connection = $connection;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -55,10 +50,12 @@ class StompReceiver implements ReceiverInterface
         }
 
         try {
-            $envelope = $this->serializer->decode([
-                'body' => $stompMessage->getBody(),
-                'headers' => $stompMessage->getHeaders(),
-            ]);
+            $envelope = $this->serializer->decode(
+                [
+                    'body'    => $stompMessage->getBody(),
+                    'headers' => $stompMessage->getHeaders(),
+                ]
+            );
         } catch (MessageDecodingFailedException $exception) {
             $this->rejectStompMessage($stompMessage);
 

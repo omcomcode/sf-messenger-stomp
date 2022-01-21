@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "symfony/messenger": "^4.3 | ^5.0",
         "enqueue/stomp": "^0.10.1"
     },

@@ -9,11 +9,8 @@ use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;
 
 class StompStamp implements NonSendableStampInterface
 {
-    private $stompMessage;
-
-    public function __construct(StompMessage $stompMessage)
+    public function __construct(private StompMessage $stompMessage)
     {
-        $this->stompMessage = $stompMessage;
     }
 
     public function getStompMessage(): StompMessage

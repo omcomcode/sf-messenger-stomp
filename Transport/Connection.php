@@ -13,38 +13,30 @@ use Stomp\Exception\ConnectionException;
 
 class Connection
 {
-    private $context;
-    private $destinationName;
-
     /** @var StompConsumer|null */
     private $consumer = null;
 
     /** @var StompProducer|null */
     private $producer = null;
 
-    private $receiveTimeout;
-
-    public function __construct(StompContext $context, string $destinationName, int $receiveTimeout)
+    public function __construct(private StompContext $context, private string $destinationName, private int $receiveTimeout)
     {
-        $this->destinationName = $destinationName;
-        $this->receiveTimeout = $receiveTimeout;
-        $this->context = $context;
     }
 
     public static function create(string $dsn, array $options = []): self
     {
         $destinationName = $options['destination'] ?? null;
-        $queueName = $options['queue'] ?? null;
-        $topicName = $options['topic'] ?? null;
+        $queueName       = $options['queue'] ?? null;
+        $topicName       = $options['topic'] ?? null;
 
         $receiveTimeout = ($options['receive_timeout'] ?? 30) * 1000;
 
         if (!$destinationName && $queueName) {
-            $destinationName = '/queue/'.$queueName;
+            $destinationName = '/queue/' . $queueName;
         }
 
         if (!$destinationName && $topicName) {
-            $destinationName = '/topic/'.$topicName;
+            $destinationName = '/topic/' . $topicName;
         }
 
         if (!$destinationName) {
@@ -52,21 +44,21 @@ class Connection
         }
 
         $config = [
-            'dsn' => $dsn,
-            'host' => $options['host'] ?? null,
-            'port' => $options['port'] ?? null,
-            'login' => $options['login'] ?? null,
-            'password' => $options['password'] ?? null,
-            'vhost' => $options['vhost'] ?? null,
-            'buffer_size' => $options['buffer_size'] ?? null,
+            'dsn'                => $dsn,
+            'host'               => $options['host'] ?? null,
+            'port'               => $options['port'] ?? null,
+            'login'              => $options['login'] ?? null,
+            'password'           => $options['password'] ?? null,
+            'vhost'              => $options['vhost'] ?? null,
+            'buffer_size'        => $options['buffer_size'] ?? null,
             'connection_timeout' => $options['connection_timeout'] ?? null,
-            'sync' => $options['sync'] ?? null,
-            'lazy' => $options['lazy'] ?? null,
-            'ssl_on' => $options['ssl_on'] ?? null,
-            'write_timeout' => $options['write_timeout'] ?? null,
-            'read_timeout' => $options['read_timeout'] ?? null,
-            'send_heartbeat' => $options['send_heartbeat'] ?? null,
-            'receive_heartbeat' => $options['receive_heartbeat'] ?? null,
+            'sync'               => $options['sync'] ?? null,
+            'lazy'               => $options['lazy'] ?? null,
+            'ssl_on'             => $options['ssl_on'] ?? null,
+            'write_timeout'      => $options['write_timeout'] ?? null,
+            'read_timeout'       => $options['read_timeout'] ?? null,
+            'send_heartbeat'     => $options['send_heartbeat'] ?? null,
+            'receive_heartbeat'  => $options['receive_heartbeat'] ?? null,
         ];
 
         foreach ($config as $k => $v) {
@@ -83,7 +75,7 @@ class Connection
     public function send(string $body, array $headers = []): StompMessage
     {
         $destination = $this->context->createDestination($this->destinationName);
-        $message = $this->context->createMessage($body, [], $headers);
+        $message     = $this->context->createMessage($body, [], $headers);
         $this->getProducer()->send($destination, $message);
 
         return $message;
@@ -116,7 +108,7 @@ class Connection
         $this->checkConnection();
 
         if (!$this->consumer) {
-            $destination = $this->context->createDestination($this->destinationName);
+            $destination    = $this->context->createDestination($this->destinationName);
             $this->consumer = $this->context->createConsumer($destination);
         }
 
