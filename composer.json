@@ -11,7 +11,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:omcomcode/stomp.git"
+            "url": "git@github.com:omcomcode/stomp.git",
+            "canonical": false
         }
     ],
     "require": {
