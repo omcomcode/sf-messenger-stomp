@@ -8,10 +8,16 @@
         }
     ],
     "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:omcomcode/stomp.git"
+        }
+    ],
     "require": {
         "php": "^8.0|^8.1",
         "symfony/messenger": "^6",
-        "enqueue/stomp": "^0"
+        "enqueue/stomp": "dev-master"
     },
     "autoload": {
         "psr-4": {
